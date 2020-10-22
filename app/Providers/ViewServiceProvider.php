@@ -3,7 +3,7 @@
 namespace App\Providers;
 use App\Models\User;
 use App\Models\Category;
-
+use App\Models\Tag;
 use Illuminate\Support\ServiceProvider;
 use View;
 
@@ -35,20 +35,8 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('categoryItems', $categoryItems);
         });
         View::composer(['posts.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['posts.fields'], function ($view) {
-            $categoryItems = Category::pluck('name','id')->toArray();
-            $view->with('categoryItems', $categoryItems);
-        });
-        View::composer(['posts.fields'], function ($view) {
-            $userItems = User::pluck('name','id')->toArray();
-            $view->with('userItems', $userItems);
-        });
-        View::composer(['posts.fields'], function ($view) {
-            $categoryItems = Category::pluck('name','id')->toArray();
-            $view->with('categoryItems', $categoryItems);
+            $tagItems = Tag::pluck('name','id')->toArray();
+            $view->with('tagItems', $tagItems);
         });
         //
     }

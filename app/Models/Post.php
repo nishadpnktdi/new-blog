@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -56,9 +56,24 @@ class Post extends Model
     public static $rules = [
         'category_id' => 'required',
         'user_id' => 'required',
-        'title' => 'required, unique:posts',
+        'title' => 'required | unique:posts',
         'content' => 'required'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Models\Tag');
+    }
 
     
 }

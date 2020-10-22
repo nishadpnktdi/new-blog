@@ -1,13 +1,13 @@
 <!-- Category Id Field -->
 <div class="form-group">
-    {!! Form::label('category_id', 'Category Id:') !!}
-    <p>{{ $post->category_id }}</p>
+    {!! Form::label('category_id', 'Category:') !!}
+    <p>{{ $post->category['name'] }}</p>
 </div>
 
 <!-- User Id Field -->
 <div class="form-group">
-    {!! Form::label('user_id', 'User Id:') !!}
-    <p>{{ $post->user_id }}</p>
+    {!! Form::label('user_id', 'Author:') !!}
+    <p>{{ $post->user['name'] }}</p>
 </div>
 
 <!-- Title Field -->

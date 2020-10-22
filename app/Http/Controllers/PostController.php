@@ -18,6 +18,8 @@ class PostController extends AppBaseController
 
     public function __construct(PostRepository $postRepo)
     {
+        $this->middleware('auth');
+        
         $this->postRepository = $postRepo;
     }
 
@@ -51,9 +53,14 @@ class PostController extends AppBaseController
      */
     public function store(CreatePostRequest $request)
     {
+
         $input = $request->all();
 
+        $input["user_id"] = auth()->user()->id;
+
         $post = $this->postRepository->create($input);
+
+        $post->tags()->sync($request->tags);
 
         Flash::success('Post saved successfully.');
 
@@ -119,6 +126,8 @@ class PostController extends AppBaseController
         }
 
         $post = $this->postRepository->update($request->all(), $id);
+
+        $post->tags()->sync($request->tags);
 
         Flash::success('Post updated successfully.');
 

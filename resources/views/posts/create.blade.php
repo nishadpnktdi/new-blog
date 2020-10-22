@@ -21,3 +21,12 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('.select-category').select2();
+    $('.select-tags-basic-multiple').select2();
+  });
+</script>
+@endpush

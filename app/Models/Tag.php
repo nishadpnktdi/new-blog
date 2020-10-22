@@ -46,5 +46,10 @@ class Tag extends Model
         'name' => 'required'
     ];
 
+    public function posts()
+    {
+        return $this->belongsToMany('App\Models\Post');
+    }
+
     
 }

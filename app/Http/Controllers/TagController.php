@@ -18,6 +18,7 @@ class TagController extends AppBaseController
 
     public function __construct(TagRepository $tagRepo)
     {
+        $this->middleware('auth');
         $this->tagRepository = $tagRepo;
     }
 

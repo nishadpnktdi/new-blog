@@ -18,7 +18,8 @@ class PostDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'posts.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'posts.datatables_actions');
     }
 
     /**
@@ -29,7 +30,7 @@ class PostDataTable extends DataTable
      */
     public function query(Post $model)
     {
-        return $model->newQuery();
+        return $model->with('user','category')->newQuery();
     }
 
     /**
@@ -65,10 +66,9 @@ class PostDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'category_id',
-            'user_id',
             'title',
-            'content'
+            'category.name',
+            'user.name',
         ];
     }
 
