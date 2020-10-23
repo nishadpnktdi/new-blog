@@ -28,6 +28,13 @@
     {!! Form::textarea('content', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Images Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('images', 'Images:') !!}
+    <input type="file" class="featured" name="images[]" value="{{ old('image') }}" multiple/>
+    <sub>*First selected image will be the featured image.</sub>
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

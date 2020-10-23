@@ -7,8 +7,9 @@ use App\Http\Requests;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Repositories\PostRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Post;
+use Laracasts\Flash\Flash;
 use Response;
 
 class PostController extends AppBaseController
@@ -58,9 +59,29 @@ class PostController extends AppBaseController
 
         $input["user_id"] = auth()->user()->id;
 
+        if (isset($request->images)) {
+
+            $post = new Post();
+
+            $file = $request->file('images')[0];
+            $test = $file->move(public_path(), $file->getClientOriginalName());
+            // return $test;
+            $post->addMedia($test)->toMediaCollection('featured-image', 'local');
+
+            // foreach ($request->images as $image) {
+
+            //     // $path = $image->getClientOriginalName();
+            //     $post->addMedia($image)->toMediaCollection('post-images');
+            // }
+
+        }
+
         $post = $this->postRepository->create($input);
 
         $post->tags()->sync($request->tags);
+
+        $post->save();
+        return "hola";
 
         Flash::success('Post saved successfully.');
 

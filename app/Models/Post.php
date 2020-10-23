@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * Class Post
@@ -17,8 +19,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $title
  * @property string $content
  */
-class Post extends Model
+class Post extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+    
     use SoftDeletes;
 
     public $table = 'posts';
@@ -57,7 +61,8 @@ class Post extends Model
         'category_id' => 'required',
         'user_id' => 'required',
         'title' => 'required | unique:posts',
-        'content' => 'required'
+        'content' => 'required',
+        'images.*' => 'required | image'
     ];
 
     public function user()
