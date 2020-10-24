@@ -26,6 +26,7 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         $rules = Post::$rules;
+        $rules['images'] = 'sometimes';
         $rules['title'] = $rules['title'].","."title".",".$this->route("post");
         return $rules;
     }

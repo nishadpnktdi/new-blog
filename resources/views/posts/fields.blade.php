@@ -30,6 +30,13 @@
 
 <!-- Images Field -->
 <div class="form-group col-sm-12">
+    <div class="inline-block">
+    @if(isset($images))
+        @foreach($images as $image)
+            <img src='{{$image->getUrl()}}' class="img-rounded" width="200" />
+        @endforeach
+    @endif
+    </div>
     {!! Form::label('images', 'Images:') !!}
     <input type="file" class="featured" name="images[]" value="{{ old('image') }}" multiple/>
     <sub>*First selected image will be the featured image.</sub>

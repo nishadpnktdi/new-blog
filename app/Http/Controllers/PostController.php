@@ -59,29 +59,24 @@ class PostController extends AppBaseController
 
         $input["user_id"] = auth()->user()->id;
 
+        $post = $this->postRepository->create($input);
+
         if (isset($request->images)) {
 
-            $post = new Post();
-
             $file = $request->file('images')[0];
-            $test = $file->move(public_path(), $file->getClientOriginalName());
-            // return $test;
-            $post->addMedia($test)->toMediaCollection('featured-image', 'local');
+            $post->addMedia($file)->preservingOriginal()->toMediaCollection('featured-image');
 
-            // foreach ($request->images as $image) {
+            foreach ($request->images as $image) {
 
-            //     // $path = $image->getClientOriginalName();
-            //     $post->addMedia($image)->toMediaCollection('post-images');
-            // }
+                // $path = $image->getClientOriginalName();
+                $post->addMedia($image)->toMediaCollection('post-images');
+            }
 
         }
 
-        $post = $this->postRepository->create($input);
 
         $post->tags()->sync($request->tags);
 
-        $post->save();
-        return "hola";
 
         Flash::success('Post saved successfully.');
 
@@ -118,6 +113,7 @@ class PostController extends AppBaseController
     public function edit($id)
     {
         $post = $this->postRepository->find($id);
+        $images = Post::find($id)->getMedia('post-images');
 
         if (empty($post)) {
             Flash::error('Post not found');
@@ -125,7 +121,7 @@ class PostController extends AppBaseController
             return redirect(route('posts.index'));
         }
 
-        return view('posts.edit')->with('post', $post);
+        return view('posts.edit')->with(compact('post','images'));
     }
 
     /**
@@ -148,6 +144,25 @@ class PostController extends AppBaseController
 
         $post = $this->postRepository->update($request->all(), $id);
 
+        if(!$request->images[0] == null){
+
+            if (isset($request->images)) {
+                
+                $post->clearMediaCollection('post-images');
+                
+                $file = $request->images[0];
+                $post->addMedia($file)->preservingOriginal()->toMediaCollection('featured-image');
+                
+                foreach ($request->images as $image) {
+                    
+                    // $path = $image->getClientOriginalName();
+                    $post->addMedia($image)->toMediaCollection('post-images');
+                }
+                
+                
+            }
+            
+        }
         $post->tags()->sync($request->tags);
 
         Flash::success('Post updated successfully.');
@@ -173,6 +188,8 @@ class PostController extends AppBaseController
         }
 
         $this->postRepository->delete($id);
+
+        $post->tags()->sync([]);
 
         Flash::success('Post deleted successfully.');
 
