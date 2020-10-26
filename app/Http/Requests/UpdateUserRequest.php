@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Post;
+use App\Models\User;
+use Illuminate\Http\Request;
 
-class CreatePostRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
 
     /**
@@ -23,10 +24,14 @@ class CreatePostRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        $rules = Post::$rules;
-        $rules['images.*'] = 'required | image | mimes:jpeg,png,jpg,gif';
+        $rules = User::$rules;
+        
+        if($request['password'] == null){
+            $rules['password'] = 'nullable';
+        }
+        $rules['email'] = $rules['email'].","."email".",".$this->route("user");
         return $rules;
     }
 }

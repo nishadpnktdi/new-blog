@@ -41,6 +41,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'sometimes|string|min:6|confirmed',
+    ];
+
     public function posts()
     {
         return $this->hasMany('App\Models\Post');

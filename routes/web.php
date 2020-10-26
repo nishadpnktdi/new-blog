@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,7 @@ Route::resource('posts', App\Http\Controllers\PostController::class);
 Route::resource('categories', App\Http\Controllers\CategoryController::class);
 
 Route::resource('tags', App\Http\Controllers\TagController::class);
+
+Route::resource('contacts', App\Http\Controllers\ContactController::class);
+
+Route::resource('users', UserController::class)->middleware('auth');

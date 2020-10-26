@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Post;
+use App\Models\Contact;
 
-class CreatePostRequest extends FormRequest
+class UpdateContactRequest extends FormRequest
 {
 
     /**
@@ -25,8 +25,8 @@ class CreatePostRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Post::$rules;
-        $rules['images.*'] = 'required | image | mimes:jpeg,png,jpg,gif';
+        $rules = Contact::$rules;
+        
         return $rules;
     }
 }

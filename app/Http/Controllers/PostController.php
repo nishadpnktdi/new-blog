@@ -144,9 +144,11 @@ class PostController extends AppBaseController
 
         $post = $this->postRepository->update($request->all(), $id);
 
-        if(!$request->images[0] == null){
+        if (isset($request->images)) {
+            
+            if(!$request->images[0] == null){
 
-            if (isset($request->images)) {
+                $post->clearMediaCollection('featured-image');
                 
                 $post->clearMediaCollection('post-images');
                 

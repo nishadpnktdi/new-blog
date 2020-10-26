@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Post;
+use Illuminate\Http\Request;
 
 class UpdatePostRequest extends FormRequest
 {
@@ -23,11 +24,17 @@ class UpdatePostRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         $rules = Post::$rules;
-        $rules['images'] = 'sometimes';
         $rules['title'] = $rules['title'].","."title".",".$this->route("post");
+        
+        if(isset($request->images)){    
+            if(!$request->images[0] == null){
+                $rules['images.*'] = "image | mimes:jpeg,png,jpg,gif";
+            }
+        }
+
         return $rules;
     }
 }

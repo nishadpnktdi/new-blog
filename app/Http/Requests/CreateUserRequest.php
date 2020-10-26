@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Post;
+use App\Models\User;
 
-class CreatePostRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
 
     /**
@@ -25,8 +25,6 @@ class CreatePostRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Post::$rules;
-        $rules['images.*'] = 'required | image | mimes:jpeg,png,jpg,gif';
-        return $rules;
+        return User::$rules;
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Post
+            User
         </h1>
    </section>
    <div class="content">
@@ -11,9 +11,9 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($post, ['route' => ['posts.update', $post->id], 'method' => 'patch', 'enctype' => 'multipart/form-data']) !!}
+                   {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
 
-                        @include('posts.fields')
+                        @include('users.fields')
 
                    {!! Form::close() !!}
                </div>
@@ -21,12 +21,3 @@
        </div>
    </div>
 @endsection
-
-@push('scripts')
-<script>
-$(document).ready(function() {
-    $('.select-category').select2();
-    $('.select-tags-basic-multiple').select2();
-  });
-</script>
-@endpush

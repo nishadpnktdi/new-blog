@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UserFactory extends Factory
+class ContactFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Contact::class;
 
     /**
      * Define the model's default state.
@@ -23,9 +23,9 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
+        'phone' => $this->faker->word,
         'email' => $this->faker->word,
-        'password' => $this->faker->word,
-        'confirm_password' => $this->faker->word,
+        'message' => $this->faker->text,
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
