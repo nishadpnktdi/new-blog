@@ -52,10 +52,11 @@ class Contact extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required, string',
-        'phone' => 'required, regex:/(01)[0-9]{9}/',
-        'email' => 'required, email',
-        'message' => 'required'
+        'name' => 'required | string',
+        'phone' => 'required | regex:/(01)[0-9]{9}/',
+        'email' => 'required | email',
+        'message' => 'required',
+        'g-recaptcha-response' => 'required|captcha'
     ];
 
     

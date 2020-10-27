@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [BlogController::class, 'index']);
+
+Route::get('/about', [BlogController::class, 'about']);
+
+Route::get('/contact', [BlogController::class, 'contact']);
+
+Route::get('/post/{id}', [BlogController::class, 'show']);
+
+Route::post('/contact', [BlogController::class, 'contactForm']);
 
 Auth::routes();
 
