@@ -53,7 +53,7 @@ class GoogleController extends Controller
                     'password' => Hash::make('bla321'),
                 ]);
 
-                event(new NewUserRegisteredUsingSocial($user));
+                event(new NewUserRegisteredUsingSocial($newUser));
       
                 Auth::login($newUser);
       
