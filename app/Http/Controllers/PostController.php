@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Repositories\PostRepository;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 use Laracasts\Flash\Flash;
 use Response;
 
@@ -181,20 +182,25 @@ class PostController extends AppBaseController
      */
     public function destroy($id)
     {
-        $post = $this->postRepository->find($id);
+        if(Gate::allows('isAdmin') || Gate::allows('isEditor')){
 
-        if (empty($post)) {
-            Flash::error('Post not found');
-
+            $post = $this->postRepository->find($id);
+            
+            if (empty($post)) {
+                Flash::error('Post not found');
+                
+                return redirect(route('posts.index'));
+            }
+            
+            $this->postRepository->delete($id);
+            
+            $post->tags()->sync([]);
+            
+            Flash::success('Post deleted successfully.');
+            
             return redirect(route('posts.index'));
+        } else {
+            return back()->with('message', 'Unauthorized action');
         }
-
-        $this->postRepository->delete($id);
-
-        $post->tags()->sync([]);
-
-        Flash::success('Post deleted successfully.');
-
-        return redirect(route('posts.index'));
     }
 }

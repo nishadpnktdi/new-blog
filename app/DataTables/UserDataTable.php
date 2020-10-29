@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -29,6 +30,7 @@ class UserDataTable extends DataTable
      */
     public function query(User $model)
     {
+        
         return $model->newQuery();
     }
 

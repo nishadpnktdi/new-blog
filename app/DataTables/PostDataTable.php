@@ -3,6 +3,8 @@
 namespace App\DataTables;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -30,7 +32,17 @@ class PostDataTable extends DataTable
      */
     public function query(Post $model)
     {
-        return $model->with('user','category')->newQuery();
+        $currentuser = Auth::user();
+
+        if(Gate::allows('isAdmin') || Gate::allows('isEditor')){
+
+            return $model->with('user','category')->newQuery();
+
+        }
+
+            return $model->with('user','category')
+            ->where('user_id', '=', $currentuser->id)
+            ->newQuery();
     }
 
     /**

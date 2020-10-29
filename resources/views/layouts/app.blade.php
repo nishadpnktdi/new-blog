@@ -49,9 +49,40 @@
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li>
-                                <a href="#"><i class="fa fa-bell" style="font-size: 150%"></i></a>
-                            </li>
+                            @if(auth()->user()->role == 'admin')
+                                <li class="dropdown">
+
+                                    @if($notifications->count() > 0)
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-bell text-danger" style="font-size: 150%"></i>
+                                        </a>
+                                    @endif
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="fa fa-bell" style="font-size: 150%"></i>
+                                        </a>
+
+                                    <div class="dropdown-menu panel panel-default">
+                                        <h4 class="panel-heading">Notifications</h4>
+                                        @forelse($notifications as $notification)
+                                            @if($loop->first)
+                                            <a href="#" id="mark-all">Mark all as read</a>
+                                            @endif
+                                            <div class="panel-info">New user registration</div>
+                                            <!-- <hr> -->
+                                            <div class="panel-body notif-elem">
+                                                <p>{{ $notification->data['name'] }}</p>
+                                                <p>{{ $notification->data['email'] }}</p>
+                                                <a href="#" class="mark-as-read">Mark a read</a>
+                                            </div>
+                                            @empty
+                                            <div class="panl-body">
+                                                <p>No new notifications</p>
+                                            </div>
+                                        @endforelse
+                                        
+                                    </div>
+                                </li>
+                            @endif
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
                                 <!-- Menu Toggle Button -->
@@ -161,14 +192,58 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js">
+    </script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/js/adminlte.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function sendMarkRequest(id = null) {
+                return $.ajax({
+                    method: 'POST',
+                    url: "/mark-as-read",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        id,
+                    },
+                    success: function (result) {
+                        console.log('success');
+                    },
+                    error: function (data) {
+                        console.log('failed');
+                    }
+                })
+            }
 
+            $('.mark-as-read').click(function () {
+                let request = sendMarkRequest($(this).data('id'));
+                request.done(() => {
+                    $(this).parents('div.panel-body').remove();
+                });
+            });
+
+            $('#mark-all').click(function () {
+                let request = sendMarkRequest();
+                request.done(() => {
+                    $('div.preview-item').remove();
+                    $('.count').remove();
+
+                    $('.preview-list').append(
+                        '<p class="mb-0 font-weight-medium float-left">No new notifications</p>'
+                        );
+                    $('.preview-list').append(
+                        '<p class="mb-0 font-weight-medium float-left"></p>');
+                    $('.preview-list').append('<a class="dropdown-item preview-item"></a>');
+                })
+            });
+        });
+
+    </script>
     @stack('scripts')
 </body>
 

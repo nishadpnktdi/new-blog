@@ -83,6 +83,11 @@
 
         <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
         <a href="{{ url('/register') }}" class="text-center">Register a new membership</a>
+        <hr>
+        <div class="col-md-offset-3">
+        <a href="{{ url('login/facebook') }}"><button class="btn-primary">Facebook</button></a>
+        <a href="{{ url('login/google') }}"><button class="btn-danger">Google</button>
+        </div>
 
     </div>
     <!-- /.login-box-body -->

@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use Laracasts\Flash\Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Post;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Response;
 
@@ -152,7 +154,10 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
+        Post::where('user_id', $id)->delete();
+
         $this->userRepository->delete($id);
+
 
         Flash::success('User deleted successfully.');
 
