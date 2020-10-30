@@ -23,9 +23,13 @@
             <div class="clearfix">
                 @if($posts->previousPageUrl())
                 <a class="btn btn-primary float-left" href="{{$posts->previousPageUrl()}}">&larr; Newer Posts</a>
+                @else
+                <a class="btn btn-primary float-left disabled" href="{{$posts->previousPageUrl()}}">&larr; Newer Posts</a>
                 @endif
                 @if($posts->nextPageUrl())
                 <a class="btn btn-primary float-right" href="{{$posts->nextPageUrl()}}">Older Posts &rarr;</a>
+                @else
+                <a class="btn btn-primary float-right disabled" href="{{$posts->nextPageUrl()}}">Older Posts &rarr;</a>
                 @endif
             </div>
         </div>
