@@ -21,8 +21,12 @@
             @endforeach
             <!-- Pager -->
             <div class="clearfix">
-            {{dd($posts)}}
-                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+                @if($posts->previousPageUrl())
+                <a class="btn btn-primary float-left" href="{{$posts->previousPageUrl()}}">&larr; Newer Posts</a>
+                @endif
+                @if($posts->nextPageUrl())
+                <a class="btn btn-primary float-right" href="{{$posts->nextPageUrl()}}">Older Posts &rarr;</a>
+                @endif
             </div>
         </div>
     </div>

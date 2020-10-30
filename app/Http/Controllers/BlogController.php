@@ -12,7 +12,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $posts = Post::get();
+        $posts = Post::orderBy('id','DESC')->simplePaginate(1);
 
         return view('/blog/content')->with(compact('posts'));
     }
